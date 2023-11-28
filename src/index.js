@@ -17,8 +17,7 @@ const frame = document.createElement('div')
 frame.classList.add('frame')
 container.append(frame)
 
-//create arrows and place them to both sides of frame
-
+//create arrows and place them on both sides of frame
 const leftArrow = document.createElement('img')
 leftArrow.src = left
 leftArrow.classList.add('arrows')
@@ -28,9 +27,8 @@ rightArrow.classList.add('arrows')
 frame.insertAdjacentElement('beforebegin', leftArrow)
 frame.insertAdjacentElement('afterend', rightArrow)
 
-
 //fill up frame with images
-function createImage () {
+;(function createImage () {
     const sources = [image0, image1, image2, image3, image4]
     for (let i = 0; i < 5; i++) {
         const image = document.createElement('img')
@@ -39,39 +37,33 @@ function createImage () {
         image.classList.add('invisible')
         frame.append(image)
     }
-}
-createImage ()
-
+})()
+//creare counter and HTMLcollections of images in global scope
+// to use them all by some functions of the app
 let counter = 0
 let images = document.querySelectorAll('.frame img')
-images[counter].classList.add('visible')
+//activate initial (first) image, that is make it visible
+images[counter].classList.add('active')
 
-
-function clickOnRightArrow () {
+//two functions for change slides while user click on right and left buttons (arrows)
+;(function clickOnRightArrow () {
     rightArrow.addEventListener('click', function() {
-        images[counter].classList.remove('visible')
-        if (counter < 4) counter++
-        else counter = 0
-        images[counter].classList.add('visible')
-        changePoint ()
+        rightTraffic ()
     })
-}
+})()
 
-function clickOnLeftArrow () {
+;(function clickOnLeftArrow () {
     leftArrow.addEventListener('click', function () {
-        images[counter].classList.remove('visible')
+        images[counter].classList.remove('active')
         if (counter > 0) counter--
         else counter = 4
-        images[counter].classList.add('visible')
+        images[counter].classList.add('active')
         changePoint ()
     })
-}
+})()
 
-clickOnRightArrow ()
-clickOnLeftArrow ()
-
-//create points that corresponde to slides and put them in body
-function createPoints () {
+//create indicative points and put them in body
+;(function createPoints () {
     const divWithPoints = document.createElement('div')
     for (let i = 0; i < 5; i++) {
         const point = document.createElement('div')
@@ -79,8 +71,7 @@ function createPoints () {
         divWithPoints.append(point)
     }
     document.querySelector('body').insertAdjacentElement('beforeend', divWithPoints)
-}
-createPoints()
+})()
 
 //change color of points
 function changePoint () {
@@ -89,35 +80,36 @@ function changePoint () {
     points.forEach(point => {
         point.style.background = 'inherit'
     });
+    //now change it
     points[counter].style.background = 'red'
 }
-changePoint ()
+changePoint () //function calls here to change color that is corresponding intial slide
 
-
-
+//create right move to use it for automatically change of slides
 function rightTraffic () {
-    images[counter].classList.remove('visible')
+    images[counter].classList.remove('active')
     if (counter < 4) counter++
     else counter = 0
-    images[counter].classList.add('visible')
+    images[counter].classList.add('active')
     changePoint ()
 }
-
+//automatically change of slides
 setInterval(rightTraffic, 5000)
 
-function moveToSlideWithPoint () {
+;(function moveToSlideWithPoint () {
     const points = document.querySelectorAll('.point')
     for (const point of points) {
+        //get array from HTMLcollection in order to getting index of each individual point
         const array = Array.from(points)
         point.addEventListener('click', function () {
             const pointNumber = array.indexOf(point)
-            images[counter].classList.remove('visible')
+            images[counter].classList.remove('active')
             counter = pointNumber
-            images[counter].classList.add('visible')
+            images[counter].classList.add('active')
             changePoint ()
         })
     }
-}
-moveToSlideWithPoint ()
+})()
+
 
 

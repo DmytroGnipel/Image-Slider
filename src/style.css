@@ -6,9 +6,7 @@
 }
 
 body {
-    min-height: 100px;
     background: blue;
-    min-height: 100vh;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -16,25 +14,24 @@ body {
 }
 
 .frame {
+    position: relative;
     border: 10px solid red;
     height: 553px;
     width: 820px;
     margin: auto;
-    margin-top: 40px;
+    margin-top: 50px;
 }
 
 .invisible {
-    display: none;
-    transform: translateX(150px);
+    position: absolute;
+    visibility: hidden;
     opacity: 0;
-    transition: 0.5s;
 }
 
-.visible {
-    display: inline;
-    transform: translateX(0px);
-    transition: 0.5s;
+.invisible.active {
+    visibility: visible;
     opacity: 1;
+    transition: 3s;
 }
 
 .point {
@@ -44,8 +41,8 @@ body {
     border-radius: 50%;
     display: inline-block;
     margin: 10px;
+    cursor: pointer;
 }
-
 
 .container {
     display: flex;
@@ -53,5 +50,6 @@ body {
 }
 
 .arrows {
-    margin: 40px;
+    margin: 100px;
+    cursor: pointer;
 }
